@@ -1,7 +1,7 @@
 import { chromium } from 'playwright';
 import { Telegraf } from 'telegraf';
 
-const bot = new Telegraf('8203906763:AAGlYth3yHctZfkX10gxt2aKntznW_1tndY');
+const bot = new Telegraf(process.env.BOT_TOKEN!);
 
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
@@ -61,7 +61,7 @@ async function main() {
     console.log(`[${new Date().toISOString()}] Found ${data.length} available doctors, waiting for 5 min`);
 
     if (data.length > 0) {
-        await bot.telegram.sendMessage(-4907081993, `Найдены доступные врачи: ${data.join(', ')}`);
+        await bot.telegram.sendMessage(Number.parseInt(process.env.CHAT_ID!), `Найдены доступные врачи: ${data.join(', ')}`);
     }
 
     await new Promise(resolve => setTimeout(resolve, 5 * 60 * 1000));
